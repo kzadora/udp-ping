@@ -1,2 +1,2 @@
 # udp-ping
-Contains files related to testing UDP-based communication in various Azure regions
+A test of UDP-based communication between various Azure regions
