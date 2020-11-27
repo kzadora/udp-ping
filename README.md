@@ -16,7 +16,7 @@ A test of UDP-based communication between various Azure regions.
 
 2.  **Run the client**
     ```shell
-    go run client/client.go 127.0.0.1 <server-port>
+    go run client/client.go 127.0.0.1:<server-port> <optional-payload>
     ```
     Use the same server port value as in step 1.
 
