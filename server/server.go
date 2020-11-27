@@ -12,31 +12,31 @@ func main() {
 
 	udpAddr, err := net.ResolveUDPAddr("udp", fmt.Sprintf(":%d", listenPort))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Could not resolve UDP address: %s", err.Error())
+		fmt.Fprintf(os.Stderr, "Could not resolve UDP address: %s\n", err.Error())
 		os.Exit(2)
 	}
 
 	conn, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Could not open UDP port: %s", err.Error())
+		fmt.Fprintf(os.Stderr, "Could not open UDP socket: %s\n", err.Error())
 		os.Exit(3)
 	}
 
 	fmt.Fprintf(os.Stderr, "Listening on port %d...\n", listenPort)
 
 	var reqBuf [512]byte
-	read, clientAddr, err := conn.ReadFromUDP(reqBuf[0:])
+	bytesRead, clientAddr, err := conn.ReadFromUDP(reqBuf[0:])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Could not read UDP packet: %s", err.Error())
+		fmt.Fprintf(os.Stderr, "Could not read UDP packet: %s\n", err.Error())
 		os.Exit(4)
 	}
 
-	reply := fmt.Sprintf("From %s:%d got %s", clientAddr.IP.String(), clientAddr.Port, reqBuf[0:read])
+	reply := fmt.Sprintf("Received '%s' from %s:%d", reqBuf[0:bytesRead], clientAddr.IP.String(), clientAddr.Port)
 	fmt.Fprintf(os.Stderr, "%s\n", reply)
 
 	_, err = conn.WriteToUDP([]byte(reply), clientAddr)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Could not send a response: %s", err.Error())
+		fmt.Fprintf(os.Stderr, "Could not send a response: %s\n", err.Error())
 		os.Exit(4)
 	}
 
@@ -51,7 +51,7 @@ func getPort(args []string) int {
 		}
 	}
 
-	fmt.Fprintf(os.Stderr, "Usage: %s <port-to-listen>\n", args[0])
+	fmt.Fprintf(os.Stderr, "Usage: %s port-to-listen\n", args[0])
 	os.Exit(1)
 	return 0 // Make compiler happy
 }
