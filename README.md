@@ -68,6 +68,14 @@ docker push udppingacr201127a.azurecr.io/udp-ping-server:201127a
 
 ## Deploy server to Azure regions and ping it with the client
 
+
+> Unfortunately need to deploy using `az container` CLI due to bug in 
+> Docker ACI (UDP ports not honored) 
+>
+> (TODO: open bug)
+
+
+
 ```shell
 docker --context udp-ping-westeurope run -d -p 17335/udp udppingacr201127a.azurecr.io/udp-ping-server:201127a
 docker --context udp-ping-westeurope ps
