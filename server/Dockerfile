@@ -7,13 +7,12 @@ RUN go build server.go
 
 #final stage
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates tini
+RUN apk --no-cache add ca-certificates
 
 EXPOSE 17335
 
 COPY --from=builder /app/server /app/server
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/app/server", "17335"]
+ENTRYPOINT ["/app/server", "17335"]
 
 
