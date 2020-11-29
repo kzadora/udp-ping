@@ -37,7 +37,7 @@ func main() {
 	_, err = conn.WriteToUDP([]byte(reply), clientAddr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Could not send a response: %s\n", err.Error())
-		os.Exit(4)
+		os.Exit(5)
 	}
 
 	fmt.Fprintf(os.Stderr, "Exiting...\n")
