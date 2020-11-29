@@ -68,16 +68,25 @@ docker push udppingacr201127a.azurecr.io/udp-ping-server:201127a
 
 ## Deploy server to Azure regions and ping it with the client
 
-
-> Unfortunately need to deploy using `az container` CLI due to bug in 
-> Docker ACI (UDP ports not honored) 
->
+> Unfortunately as of November 2020 there is [a bug in Docker CLI](https://github.com/docker/compose-cli/issues/985)
+> that does not allow to create public IP addresses with UDP protocol enabled
+> when deploying to Azure Container Instances. That is why we need 
+> to deploy the containers using `az container` CLI instead. You will need to 
+> [create a service principal](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aci) for your Azure Container Registry.
+>    ```shell
+>    az container create --resource-group udp-ping-westeurope --name udp-server --ip-address public --ports 17335 --protocol UDP --image udppingacr201127a.azurecr.io/udp-ping-server:201127a --registry-login-server udppingacr201127a.azurecr.io --registry-username <service-principal-id> --registry-password <service-principal-password>
+>    ```
 > (TODO: open bug)
-
-
+>
+> Once the bug is fixed the following commands can be used to depoly the server to Azure Container Instaces:
 
 ```shell
 docker --context udp-ping-westeurope run -d -p 17335/udp udppingacr201127a.azurecr.io/udp-ping-server:201127a
+```
+
+Ping the server:
+
+```shell
 docker --context udp-ping-westeurope ps
 # Note the IP address of the server
 go run client/client.go <server-IP-address>:17335
