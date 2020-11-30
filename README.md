@@ -76,7 +76,6 @@ docker push udppingacr201127a.azurecr.io/udp-ping-server:201127a
 >    ```shell
 >    az container create --resource-group udp-ping-westeurope --name udp-server --ip-address public --ports 17335 --protocol UDP --image udppingacr201127a.azurecr.io/udp-ping-server:201127a --registry-login-server udppingacr201127a.azurecr.io --registry-username <service-principal-id> --registry-password <service-principal-password>
 >    ```
-> (TODO: open bug)
 >
 > Once the bug is fixed the following commands can be used to depoly the server to Azure Container Instaces:
 
